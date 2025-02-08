@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const scriptsPerPage = 10;
+    const scriptsPerPage = 12;
     let currentPage = 1;
     let scripts = [];
 
