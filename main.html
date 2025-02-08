@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Script Hub</title>
+    <style>
+        body {
+            background: url('https://source.unsplash.com/1600x900/?space,galaxy') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .search-bar {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .script-list {
+            list-style: none;
+            padding: 0;
+        }
+        .script-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination button, .back-button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            background: #6e3bff;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Roblox Script Hub</h1>
+        <input type="text" class="search-bar" placeholder="Search for scripts..." oninput="searchScripts()">
+        <ul class="script-list" id="scriptList"></ul>
+        <div class="pagination" id="pagination"></div>
+        <button class="back-button" onclick="goBack()">Go Back</button>
+    </div>
+    
+    <script>
+        const scripts = ["Script1.lua", "Script2.lua", "Script3.lua", "Script4.lua", "Script5.lua", "Script6.lua", "Script7.lua", "Script8.lua", "Script9.lua", "Script10.lua", "Script11.lua", "Script12.lua"];
+        let currentPage = 1;
+        const scriptsPerPage = 10;
+        
+        function displayScripts(page) {
+            const scriptList = document.getElementById("scriptList");
+            scriptList.innerHTML = "";
+            const start = (page - 1) * scriptsPerPage;
+            const end = start + scriptsPerPage;
+            const paginatedScripts = scripts.slice(start, end);
+            
+            paginatedScripts.forEach(script => {
+                const li = document.createElement("li");
+                li.className = "script-item";
+                li.innerHTML = `<p>${script}</p><button onclick="copyScript('${script}')">Copy Script</button>`;
+                scriptList.appendChild(li);
+            });
+            generatePagination();
+        }
+        
+        function generatePagination() {
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            const totalPages = Math.ceil(scripts.length / scriptsPerPage);
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i;
+                btn.onclick = () => {
+                    currentPage = i;
+                    displayScripts(i);
+                };
+                pagination.appendChild(btn);
+            }
+        }
+        
+        function searchScripts() {
+            const query = document.querySelector(".search-bar").value.toLowerCase();
+            const filteredScripts = scripts.filter(script => script.toLowerCase().includes(query));
+            const scriptList = document.getElementById("scriptList");
+            scriptList.innerHTML = "";
+            filteredScripts.forEach(script => {
+                const li = document.createElement("li");
+                li.className = "script-item";
+                li.innerHTML = `<p>${script}</p><button onclick="copyScript('${script}')">Copy Script</button>`;
+                scriptList.appendChild(li);
+            });
+        }
+        
+        function copyScript(scriptName) {
+            navigator.clipboard.writeText(scriptName);
+            alert("Copied: " + scriptName);
+        }
+        
+        function goBack() {
+            window.history.back();
+        }
+        
+        displayScripts(currentPage);
+    </script>
+</body>
+</html>
